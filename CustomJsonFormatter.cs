@@ -4,16 +4,6 @@ using Serilog.Formatting;
 
 class CustomJsonFormatter : ITextFormatter
 {
-    private static readonly Dictionary<LogEventLevel, string> LogLevelStrings = new()
-    {
-        { LogEventLevel.Verbose, "Verbose" },
-        { LogEventLevel.Debug, "Debug" },
-        { LogEventLevel.Information, "Information" },
-        { LogEventLevel.Warning, "Warning" },
-        { LogEventLevel.Error, "Error" },
-        { LogEventLevel.Fatal, "Fatal" }
-    };
-
     public void Format(LogEvent logEvent, TextWriter output)
     {
         string correlationId = "";
@@ -22,7 +12,12 @@ class CustomJsonFormatter : ITextFormatter
         {
             correlationId = correlationIdProperty;
         }
-
+        string status = "";
+        var statusProperty = logEvent.Properties.ContainsKey("Status") ? logEvent.Properties["Status"].ToString() : null;
+        if (statusProperty != null)
+        {
+            status = statusProperty;
+        }
         var json = new StringWriter();
         using (var jsonWriter = new JsonTextWriter(json))
         {
@@ -35,8 +30,20 @@ class CustomJsonFormatter : ITextFormatter
             jsonWriter.WriteValue(logEvent.RenderMessage());
             jsonWriter.WritePropertyName("correlationId");
             jsonWriter.WriteValue(correlationId);
+            jsonWriter.WritePropertyName("status");
+            jsonWriter.WriteRawValue(status);
             jsonWriter.WriteEndObject();
         }
         output.Write(json.ToString() + "\n");
     }
+
+    private static readonly Dictionary<LogEventLevel, string> LogLevelStrings = new()
+    {
+        { LogEventLevel.Verbose, "Verbose" },
+        { LogEventLevel.Debug, "Debug" },
+        { LogEventLevel.Information, "Information" },
+        { LogEventLevel.Warning, "Warning" },
+        { LogEventLevel.Error, "Error" },
+        { LogEventLevel.Fatal, "Fatal" }
+    };
 }

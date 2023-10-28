@@ -32,7 +32,9 @@ namespace Test
             }
 
             var correlationId = Guid.NewGuid();
+            var status = "ok";
             using (LogContext.PushProperty("CorrelationId", correlationId))
+            using (LogContext.PushProperty("Status", status))
             {
                 for (int id = 0; id < 10; id++)
                 {
