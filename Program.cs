@@ -1,18 +1,15 @@
-using LongRunning;
 using Serilog;
+using Test;
 
 Log.Logger = new LoggerConfiguration()
     // .MinimumLevel.Debug()
     .Enrich.FromLogContext()
     .WriteTo.Console(new CustomJsonFormatter())
     .CreateLogger();
-
-IHost host = Host.CreateDefaultBuilder(args)
-    .UseSerilog()
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build();
-
-host.Run();
+    
+var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog(); // <- the magical method
+builder.Services.AddHostedService<Worker>();
+var app = builder.Build();
+app.MapGet("/", () => "Hello World!");
+app.Run();
