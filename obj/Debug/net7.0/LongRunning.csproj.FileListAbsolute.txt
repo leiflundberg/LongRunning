@@ -48,3 +48,4 @@ C:\Users\lundberg\workspace\learning\Threading\LongRunning\bin\Debug\net7.0\Seri
 C:\Users\lundberg\workspace\learning\Threading\LongRunning\bin\Debug\net7.0\Serilog.Extensions.Hosting.dll
 C:\Users\lundberg\workspace\learning\Threading\LongRunning\bin\Debug\net7.0\Serilog.Extensions.Logging.dll
 C:\Users\lundberg\workspace\learning\Threading\LongRunning\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\lundberg\workspace\learning\Threading\LongRunning\bin\Debug\net7.0\Newtonsoft.Json.dll

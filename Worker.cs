@@ -1,4 +1,5 @@
 using Serilog;
+using Serilog.Context;
 
 namespace LongRunning;
 
@@ -28,6 +29,15 @@ public class Worker : BackgroundService
         else
         {
             Log.Information("Not happening");
+        }
+
+        var correlationId = Guid.NewGuid();
+        using (LogContext.PushProperty("CorrelationId", correlationId))
+        {
+            for (int id = 0; id < 10; id++)
+            {
+                Log.Information($"this is a log message with a different id: {id}.");
+            }
         }
     }
 }
